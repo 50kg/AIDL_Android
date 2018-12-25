@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="sanji.com.service">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
+
+        <!--添加了android:theme="@android:style/Theme.NoDisplay" 主题实现透明-->
+        <!--android:excludeFromRecents="true" 切换多任务不显示图标-->
+        <activity
+            android:name="sanji.com.service.MainActivity"
+            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation|keyboardHidden"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTop"
+            android:theme="@android:style/Theme.NoDisplay">
+            <!--入口-->
+            <intent-filter>
+
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+
+                <!--这里再添加一次URL启动 是为了让桌面图标消失-->
+                <data
+                    android:host="sanji.com.service"
+                    android:pathPrefix="/MainActivity"
+                    android:scheme="demo" />
+            </intent-filter>
+
+            <!--URL启动启动配置 demo://sanji.com.service/MainActivity -->
+            <intent-filter>
+                <data
+                    android:host="sanji.com.service"
+                    android:pathPrefix="/MainActivity"
+                    android:scheme="demo" />
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+            </intent-filter>
+        </activity>
+
+
+        <activity
+            android:name="sanji.com.service.WebViewActivity"
+            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation|keyboardHidden"
+            android:excludeFromRecents="true"
+            android:theme="@style/AppTheme.Transparent">
+            <!--URL启动启动配置-->
+            <intent-filter>
+                <data
+                    android:host="sanji.com.service"
+                    android:pathPrefix="/WebViewActivity"
+                    android:scheme="demo" />
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+            </intent-filter>
+        </activity>
+
+        <service
+            android:name="sanji.com.service.RemoteService"
+            android:process=":remote">
+            <intent-filter>
+                <action android:name="sanji.com.service.IRemoteService" />
+                <action android:name="sanji.com.service.IService" />
+                <action android:name="sanji.com.service.RemoteService" />
+            </intent-filter>
+        </service>
+    </application>
+
+</manifest>
